@@ -9,7 +9,9 @@
 	"author": "Raga Jai Santhosh",
 	"license": "ISC",
 	"dependencies": {
-		"express": "^4.17.2"
+		"express": "^4.17.2",
+		"morgan": "^1.10.0",
+		"pg": "^8.7.1"
 	},
 	"devDependencies": {
 		"dotenv": "^14.2.0",
