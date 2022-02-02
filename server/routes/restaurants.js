@@ -53,8 +53,20 @@ router.post('/restaurants', async (req, res) => {
 })
 
 // Update a Restaurant
-router.put('/restaurants/:id', (req, res) => {
-	res.status(200).send({ status: 'Success', data: { restaurant: 'something' } })
+router.put('/restaurants/:id', async (req, res) => {
+	const { name, location, price_range } = req.body
+	try {
+		const results = await db.query(
+			'UPDATE restaurants SET name = $1, location = $2, price_range = $3 WHERE id = $4 RETURNING *',
+			[name, location, price_range, req.params.id]
+		)
+		res
+			.status(200)
+			.send({ status: 'Success', data: { restaurant: results.rows[0] } })
+	} catch (err) {
+		console.log(err)
+		res.status(500).send('Internal server error')
+	}
 })
 
 // Delete a Restaurant
