@@ -70,8 +70,15 @@ router.put('/restaurants/:id', async (req, res) => {
 })
 
 // Delete a Restaurant
-router.delete('/restaurants/:id', (req, res) => {
-	res.status(204).send({ status: 'Success' })
+router.delete('/restaurants/:id', async (req, res) => {
+	try {
+		const results = await db.query('DELETE FROM restaurants WHERE id = $1', [req.params.id])
+		res.status(204).send({ status: 'Success' })	
+	} catch (err) {
+		console.log(err)
+		res.status(500).send('Internal server error')
+	}
+	
 })
 
 module.exports = router
